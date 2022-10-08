@@ -1,24 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
-
-//database connect
-const db =
-  "mongodb+srv://adibaba:NOIoff09@cluster0.9nevc53.mongodb.net/user?retryWrites=true&w=majority";
-
-mongoose.connect(db)
-  .then(() => {
-    console.log("connect success");
-  })
-  .catch((err) => {
-    console.log("err");
-  });
-
+const name = require('./schema')
+require("./db")
 
 
 //middleware
 const middleware = (req, res, next) => {
-  console.log(`hello`); 
+  console.log(`hello`);
   next();
 };
 
@@ -38,6 +27,6 @@ app.get("/about", middleware, (req, res) => {
 //   res.send(`hello world form the server`);
 // });
 
-app.listen(3000, () => {
+app.listen(9000, () => {
   console.log("runn");
 });
