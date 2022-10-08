@@ -32,7 +32,7 @@ router.post("/register", (req, res) => {
           res.status(201).json({ message: "success" });
         })
         .catch((err) => {
-          res.status(500).json({ message: "GALAT" });
+          res.status(500).json({ message: "mistake" });
           console.log(err);
         });
     })
