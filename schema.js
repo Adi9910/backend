@@ -11,9 +11,9 @@ const schema = new mongoose.Schema({
   phone: {
     type: Number,
     required: true,
-  },
+  }
 });
 
-const name = mangoose.model("NAME", schema);
+const User = mongoose.model("NAME", schema);
 
-module.exports = name
+module.exports = User
