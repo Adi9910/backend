@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("./schema");
+const jwt = require("jsonwebtoken");
 
 const middleware = (req, res, next) => {
   next();
@@ -28,15 +29,14 @@ router.post("/register", async (req, res) => {
       return res.status(422).json({ err: "Already exist" });
     }
     const user = new User({ name, email, phone, password });
-    
+
     await user.save();
 
     res.status(201).json({ message: "success" });
   } catch (err) {
-    res.json({err});
+    res.json({ err });
   }
 });
-
 
 router.post("/signin", async (req, res) => {
   try {
@@ -45,7 +45,9 @@ router.post("/signin", async (req, res) => {
       return res.status(400).json({ error: "Invalid" });
     }
     const userLogin = await User.findOne({ email: email });
-    const isMatch = await User.findOne({password: password})
+    const isMatch = await User.findOne({ password: password });
+    const token = await userLogin.generateAuthToken();
+    console.log(token)
 
     if (!userLogin || !isMatch) {
       res.json({ message: "user error" });
@@ -53,9 +55,8 @@ router.post("/signin", async (req, res) => {
       res.status(200).json({ message: "user sign-in Successfully" });
     }
   } catch (err) {
-    res.json({err});
+    res.status(500).json({ err });
   }
 });
-
 
 module.exports = router;

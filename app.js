@@ -7,6 +7,4 @@ app.use(express.json());
 app.use(require("./auth"));
 
 
-app.listen(9000, () => {
-  console.log("runn");
-});
+app.listen(9000)
