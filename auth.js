@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require("./schema");
 
 const middleware = (req, res, next) => {
-  console.log(`hello`);
   next();
 };
 
@@ -20,7 +19,7 @@ router.post("/register", async (req, res) => {
   const { name, email, phone, password } = req.body;
 
   if (!name || !email || !phone || !password) {
-    return res.status(422).json({ err: "data fill kr bhai!!" });
+    return res.status(422).json({ err: "please fill the data" });
   }
 
   try {
@@ -30,14 +29,14 @@ router.post("/register", async (req, res) => {
     }
     const user = new User({ name, email, phone, password });
     
-
     await user.save();
 
     res.status(201).json({ message: "success" });
   } catch (err) {
-    console.log(err);
+    res.json({err});
   }
 });
+
 
 router.post("/signin", async (req, res) => {
   try {
@@ -46,14 +45,17 @@ router.post("/signin", async (req, res) => {
       return res.status(400).json({ error: "Invalid" });
     }
     const userLogin = await User.findOne({ email: email });
+    const isMatch = await User.findOne({password: password})
 
-    if (!userLogin) {
+    if (!userLogin || !isMatch) {
       res.json({ message: "user error" });
     } else {
-      res.status(200).json({ message: "user signin Successfully" });
+      res.status(200).json({ message: "user sign-in Successfully" });
     }
   } catch (err) {
-    console.log("err");
+    res.json({err});
   }
 });
+
+
 module.exports = router;
