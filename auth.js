@@ -47,11 +47,11 @@ router.post("/signin", async (req, res) => {
     const userLogin = await User.findOne({ email: email });
     const isMatch = await User.findOne({ password: password });
     const token = await userLogin.generateAuthToken();
-    
-    res.cookie("jwtoken", token,{
-      expires: new Date(Date.now()+ 25892000000),
-      httpOnly:true
-    })
+
+    res.cookie("jwtoken", token, {
+      expires: new Date(Date.now() + 25892000000),
+      httpOnly: true,
+    });
 
     if (!userLogin || !isMatch) {
       res.json({ message: "user error" });
